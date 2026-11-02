@@ -12,7 +12,7 @@ GitHub Pages обслуживает только статические стра
 
 ## Публикация
 
-Отдельный репозиторий `bdby77/octo-landing` публикуется GitHub Actions из `public/`, без build-команды и секретов в Pages. `CNAME` задаёт `octostore.space`. DNS меняется отдельно после проверки `https://bdby77.github.io/octo-landing/`.
+Отдельный репозиторий `bdby77/octo-landing` публикуется GitHub Actions из `public/`, без build-команды и секретов в Pages. При workflow-публикации `CNAME` внутри `public/` не является достаточной настройкой: custom domain сохраняется через GitHub Pages API (`PUT /repos/bdby77/octo-landing/pages`, `cname=octostore.space`). DNS меняется после проверки `https://bdby77.github.io/octo-landing/`; затем нужна новая Pages deployment, чтобы GitHub начал обслуживать custom domain.
 
 Для `www.octostore.space` нужен отдельный CNAME на `bdby77.github.io` и проверка HTTPS в GitHub Pages. `api`, `pay`, `cdn` не переносятся в Pages.
 

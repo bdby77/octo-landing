@@ -26,4 +26,9 @@ const catalogHtml = fs.readFileSync(path.join(publicDirectory, 'catalog.html'), 
 assert(catalogHtml.includes('const API_CATALOG = "/catalog.json"'));
 assert(catalogHtml.includes('renderInstallBox();'));
 assert(!catalogHtml.includes('API_BASE'));
+assert(catalogHtml.includes('new URL(API_CATALOG, document.baseURI)'));
+for (const name of ['terms.html', 'privacy.html']) {
+  const directoryIndex = path.join(publicDirectory, name.replace('.html', ''), 'index.html');
+  assert(fs.readFileSync(directoryIndex, 'utf8') === fs.readFileSync(path.join(publicDirectory, name), 'utf8'));
+}
 console.log(`Static package OK: ${required.length} required files, ${catalog.apps.length} catalog entries`);

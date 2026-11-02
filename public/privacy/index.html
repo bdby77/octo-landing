@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<base href="/octo-landing/">
+<title>Политика конфиденциальности — Octo Store</title>
+<meta name="description" content="Политика обработки персональных данных сервиса Octo Store">
+<link rel="icon" type="image/svg+xml" href="/icon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<style>
+  :root { --bg:#0e1221; --card:#19223a; --accent:#4a9eff; --text:#fff; --dim:rgba(255,255,255,0.7); --divider:rgba(255,255,255,0.08); }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; line-height: 1.65; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  header { padding: 20px 24px; border-bottom: 1px solid var(--divider); }
+  header .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; max-width: 820px; margin: 0 auto; }
+  header .logo { width: 36px; height: 36px; border-radius: 9px; object-fit: contain; background: linear-gradient(135deg, var(--accent), var(--amber, #fbbf24)); box-shadow: 0 2px 10px rgba(16,185,129,0.25); }
+  main { max-width: 820px; margin: 0 auto; padding: 40px 24px 80px; }
+  h1 { font-size: 2rem; margin-bottom: 10px; letter-spacing: -0.02em; }
+  .updated { color: var(--dim); font-size: 0.88rem; margin-bottom: 36px; }
+  h2 { font-size: 1.3rem; margin: 32px 0 12px; letter-spacing: -0.01em; }
+  p, li { color: var(--dim); margin-bottom: 10px; }
+  ul { padding-left: 24px; }
+  code { background: var(--card); padding: 1px 6px; border-radius: 4px; font-size: 0.88em; }
+  table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 0.92rem; }
+  th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--divider); color: var(--dim); }
+  th { color: var(--text); font-weight: 600; }
+  footer { padding: 24px; border-top: 1px solid var(--divider); text-align: center; color: var(--dim); font-size: 0.85rem; }
+  footer a { color: var(--dim); margin: 0 10px; }
+</style>
+</head>
+<body>
+<header>
+  <a class="brand" href="/">
+    <img class="logo" src="/icon.svg" alt="Octo Store"><span>Octo Store</span>
+  </a>
+</header>
+
+<main>
+  <h1>Политика конфиденциальности</h1>
+  <div class="updated">Редакция от 23 октября 2026 г.</div>
+
+  <p>Настоящая Политика описывает, какие данные собирает сервис Octo Store (далее — «Сервис»), как их обрабатывает и защищает. Политика составлена в соответствии с ФЗ-152 «О персональных данных» и общими принципами GDPR.</p>
+
+  <h2>1. Какие данные мы собираем</h2>
+  <table>
+    <thead><tr><th>Категория</th><th>Данные</th><th>Для чего</th></tr></thead>
+    <tbody>
+    <tr><td>Устройство</td><td>UDID iPhone/iPad, модель, версия iOS</td><td>Привязка подписки к устройству, подписание IPA-файлов</td></tr>
+    <tr><td>Активация</td><td>Активационный код, время активации</td><td>Предоставление доступа к каталогу</td></tr>
+    <tr><td>Telegram</td><td>User ID, username, source/campaign из ссылки запуска</td><td>Отправка кода после оплаты, партнёрская программа, атрибуция рекламы и воронка</td></tr>
+    <tr><td>Платежи</td><td>ID транзакции, сумма, статус</td><td>Учёт оплаты, возвраты</td></tr>
+    <tr><td>Технические</td><td>IP-адрес, User-Agent, время запросов</td><td>Защита от атак, диагностика</td></tr>
+    </tbody>
+  </table>
+  <p><b>Что мы НЕ собираем:</b> имя, фамилия, адрес, паспортные данные, email (кроме обращений в поддержку), номера банковских карт, GPS-координаты, список установленных приложений, историю активности в iOS.</p>
+
+  <h2>2. Правовые основания обработки</h2>
+  <ul>
+    <li>Исполнение договора оферты (пользовательского соглашения) — ст. 6(1)(b) GDPR / п. 5 ч. 1 ст. 6 ФЗ-152;</li>
+    <li>Законные интересы Сервиса в обеспечении работоспособности — ст. 6(1)(f) GDPR;</li>
+    <li>Согласие Пользователя при активации — ст. 6(1)(a) GDPR / п. 1 ч. 1 ст. 6 ФЗ-152.</li>
+  </ul>
+
+  <h2>3. UDID и его обработка</h2>
+  <p>UDID — уникальный идентификатор устройства Apple. Он собирается через стандартный механизм iOS Over-The-Air Profile Service: пользователь явно устанавливает конфигурационный профиль Octo, после чего iOS передаёт UDID одноразово на наш сервер. UDID используется исключительно для подписания IPA-файлов под конкретное устройство (ad-hoc подписание).</p>
+  <p>UDID хранится в серверной SQLite-базе с ограничением доступа на уровне инфраструктуры и связывается с активационной записью Пользователя. Для регистрации устройства и подготовки provisioning profile он передаётся Apple через App Store Connect API. Запрос на удаление принимается через контакты в разделе 10; удаление локальной записи не отзывает уже выданные Apple provisioning profiles и не удаляет данные из независимых резервных копий мгновенно.</p>
+
+  <h2>4. Платёжные данные</h2>
+  <p>Оплата СБП обрабатывается Platega, криптовалютный счёт — CryptoBot, Telegram Stars — платформой Telegram. Octo не запрашивает CVV, PIN-код или полный номер банковской карты в боте и не хранит их. Для сверки заказа сервер получает/хранит:</p>
+  <ul>
+    <li>внутренний и внешний идентификатор счёта/транзакции;</li>
+    <li>сумму, валюту, тариф, способ и статус оплаты;</li>
+    <li>для Telegram Stars — Telegram payment charge ID.</li>
+  </ul>
+  <p>Детали обработки платёжных данных определяются правилами соответствующего провайдера и Telegram. Octo не утверждает, что получает последние цифры карты: этот факт не используется в сервисе.</p>
+
+  <h2>5. Передача данных третьим лицам</h2>
+  <p>Сервис не передаёт персональные данные третьим лицам, за исключением:</p>
+  <ul>
+    <li>платёжных провайдеров Platega / CryptoBot и Telegram — для выбранного способа оплаты;</li>
+    <li>Apple / App Store Connect — для регистрации UDID и Ad Hoc provisioning profile;</li>
+    <li>хостинг-провайдера — для размещения инфраструктуры;</li>
+    <li>уполномоченных государственных органов — по мотивированному запросу в рамках закона.</li>
+  </ul>
+
+  <h2>6. Срок хранения</h2>
+  <table>
+    <tbody>
+    <tr><td>UDID + активационный код</td><td>До окончания срока подписки + 90 дней</td></tr>
+    <tr><td>Данные о платежах</td><td>5 лет (требование ФЗ о бухучёте)</td></tr>
+    <tr><td>Логи запросов</td><td>14 дней</td></tr>
+    <tr><td>Данные Telegram и атрибуция</td><td>До удаления аккаунта / запроса на удаление; отдельный срок хранения агрегированных рекламных отчётов уточняется владельцем</td></tr>
+    </tbody>
+  </table>
+
+  <h2>7. Безопасность</h2>
+  <ul>
+    <li>Весь трафик защищён TLS 1.2+ (Let's Encrypt);</li>
+    <li>Данные в базе хранятся на серверах с ограниченным доступом по SSH-ключам;</li>
+    <li>Пароли и секретные ключи никогда не записываются в логи;</li>
+    <li>Административные API-операции требуют отдельный токен; публичный сайт и Telegram-кнопки используют другой, публичный URL.</li>
+  </ul>
+
+  <h2>8. Права Пользователя</h2>
+  <p>Пользователь имеет право:</p>
+  <ul>
+    <li>запросить копию всех данных о себе;</li>
+    <li>потребовать удалить свои данные (кроме данных о платежах — обязаны хранить по закону);</li>
+    <li>отозвать согласие на обработку (приведёт к прекращению доступа к Сервису);</li>
+    <li>обратиться в Роскомнадзор при подозрении на нарушение.</li>
+  </ul>
+  <p>Запросы: <a href="mailto:ezzforum@gmail.com">ezzforum@gmail.com</a>. Срок рассмотрения — 30 дней.</p>
+
+  <h2>9. Cookies</h2>
+  <p>Лендинг не устанавливает рекламные или аналитические cookies. Параметры <code>src</code>/<code>utm_source</code> и <code>campaign</code>/<code>utm_campaign</code> переносятся в ссылку запуска Telegram-бота; при переходе source/campaign сохраняются в серверной аналитике воронки вместе с Telegram ID и этапами заказа/активации.</p>
+  <p>Установочный flow использует технические cookie и localStorage для проверки/восстановления UDID challenge. Административная панель использует <code>sessionStorage</code> для токена доступа оператора.</p>
+
+  <h2>10. Контакты</h2>
+  <p>Оператор обработки данных: Octo Store<br>
+  Email: <a href="mailto:ezzforum@gmail.com">ezzforum@gmail.com</a><br>
+  Telegram: <a href="https://t.me/octostore_support">@octostore_support</a><br>
+  Новостной канал: <a href="https://t.me/octostorenews">@octostorenews</a></p>
+</main>
+
+<footer>
+  <a href="/">Главная</a>
+  <a href="/terms">Условия</a>
+  <a href="/privacy">Конфиденциальность</a>
+</footer>
+</body>
+</html>

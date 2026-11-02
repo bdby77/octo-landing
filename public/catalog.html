@@ -417,7 +417,7 @@
 
   async function load() {
     try {
-      const r = await fetch(API_CATALOG, { headers: { Accept: "application/json" } });
+      const r = await fetch(new URL(API_CATALOG, document.baseURI), { headers: { Accept: "application/json" } });
       if (r.ok) {
         const data = await r.json();
         apps = Array.isArray(data) ? data : (data.apps || data.items || []);

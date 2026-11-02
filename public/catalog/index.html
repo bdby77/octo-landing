@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<base href="/octo-landing/">
+<title>Каталог · Octo Store</title>
+<meta name="description" content="315+ приложений для iPhone: удалённые из App Store банки, Premium-игры, VPN, мессенджеры.">
+<link rel="icon" type="image/svg+xml" href="/icon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="shortcut icon" href="/favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:         #0b1a17;
+    --bg-elev:    #0f2622;
+    --card:       #0f2622;
+    --card-hi:    #133a33;
+    --accent:     #10b981;
+    --accent-hi:  #34d399;
+    --amber:      #fbbf24;
+    --text:       #d1fae5;
+    --dim:        #6ee7b7;
+    --dim-2:      rgba(209,250,229,0.55);
+    --divider:    rgba(16,185,129,0.14);
+    --shadow:     0 10px 40px rgba(0,0,0,0.35);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+  }
+  a { color: inherit; text-decoration: none; }
+
+  header {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(11,26,23,0.88);
+    backdrop-filter: saturate(1.4) blur(16px);
+    border-bottom: 1px solid var(--divider);
+  }
+  header .inner {
+    max-width: 1180px; margin: 0 auto; padding: 14px 20px;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 1.05rem; }
+  .brand .logo {
+    width: 36px; height: 36px; border-radius: 9px;
+    object-fit: contain;
+    background: linear-gradient(135deg, var(--accent), var(--amber));
+    box-shadow: 0 2px 10px rgba(16,185,129,0.25);
+  }
+  .back-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 9px 14px; border-radius: 10px;
+    color: var(--dim); font-size: 0.9rem; font-weight: 500;
+    border: 1px solid var(--divider);
+    transition: color .15s, border-color .15s;
+  }
+  .back-btn:hover { color: var(--text); border-color: var(--accent); }
+
+  .hero {
+    max-width: 1180px; margin: 0 auto; padding: 56px 20px 24px;
+    text-align: center;
+  }
+  .hero h1 {
+    font-size: clamp(1.9rem, 4vw, 2.8rem);
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    margin-bottom: 10px;
+  }
+  .hero h1 .accent { color: var(--amber); }
+  .hero p {
+    color: var(--dim-2);
+    font-size: 1.02rem;
+    max-width: 620px;
+    margin: 0 auto;
+  }
+
+  .controls {
+    max-width: 1180px; margin: 0 auto; padding: 32px 20px 20px;
+    display: flex; flex-direction: column; gap: 18px;
+  }
+  .search {
+    position: relative;
+  }
+  .search input {
+    width: 100%;
+    padding: 14px 18px 14px 46px;
+    border-radius: 14px;
+    background: var(--card);
+    border: 1px solid var(--divider);
+    color: var(--text);
+    font-size: 1rem;
+    font-family: inherit;
+    outline: none;
+    transition: border-color .15s, background .15s;
+  }
+  .search input::placeholder { color: var(--dim-2); }
+  .search input:focus {
+    border-color: var(--accent);
+    background: var(--card-hi);
+  }
+  .search::before {
+    content: "🔍";
+    position: absolute; left: 16px; top: 50%; transform: translateY(-50%);
+    opacity: 0.55;
+    font-size: 1.05rem;
+  }
+
+  .chips {
+    display: flex; gap: 10px;
+    overflow-x: auto;
+    padding-bottom: 6px;
+    scrollbar-width: thin;
+  }
+  .chips::-webkit-scrollbar { height: 6px; }
+  .chips::-webkit-scrollbar-thumb { background: var(--divider); border-radius: 3px; }
+  .chip {
+    flex: 0 0 auto;
+    padding: 9px 16px;
+    border-radius: 999px;
+    background: var(--card);
+    border: 1px solid var(--divider);
+    color: var(--dim);
+    font-size: 0.88rem; font-weight: 600;
+    cursor: pointer;
+    user-select: none;
+    transition: all .15s;
+    white-space: nowrap;
+  }
+  .chip:hover { color: var(--text); border-color: var(--accent); }
+  .chip.active {
+    background: var(--accent);
+    color: #052e22;
+    border-color: var(--accent);
+  }
+
+  .count {
+    color: var(--dim-2);
+    font-size: 0.88rem;
+    padding: 0 2px;
+  }
+
+  main {
+    max-width: 1180px; margin: 0 auto; padding: 0 20px 100px;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
+    margin-top: 8px;
+  }
+  @media (max-width: 480px) {
+    .grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; }
+  }
+
+  .app {
+    background: var(--card);
+    border: 1px solid var(--divider);
+    border-radius: 16px;
+    padding: 16px;
+    display: flex; align-items: center; gap: 14px;
+    cursor: pointer;
+    transition: transform .15s, border-color .15s, background .15s;
+    min-height: 92px;
+  }
+  .app:hover {
+    transform: translateY(-2px);
+    border-color: var(--accent);
+    background: var(--card-hi);
+  }
+  .app .icon {
+    width: 60px; height: 60px;
+    border-radius: 14px;
+    flex-shrink: 0;
+    overflow: hidden;
+    background: var(--card-hi);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.35), inset 0 0 0 1px rgba(255,255,255,0.03);
+  }
+  .app .icon img {
+    width: 100%; height: 100%; display: block;
+    object-fit: cover;
+  }
+  .app .meta {
+    flex: 1; min-width: 0;
+    display: flex; flex-direction: column; gap: 2px;
+  }
+  .app .name {
+    font-weight: 700; font-size: 0.98rem;
+    color: var(--text);
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .app .sub {
+    color: var(--dim-2); font-size: 0.82rem;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .app .foot {
+    display: flex; gap: 10px; align-items: center;
+    margin-top: 4px;
+    color: var(--dim); font-size: 0.78rem;
+  }
+  .app .rating { color: var(--amber); font-weight: 600; }
+  .app .cat-tag {
+    padding: 2px 8px; border-radius: 999px;
+    background: rgba(16,185,129,0.14);
+    color: var(--accent-hi);
+    font-size: 0.72rem; font-weight: 600;
+  }
+
+  .empty {
+    text-align: center;
+    padding: 80px 20px;
+    color: var(--dim-2);
+  }
+  .empty .big { font-size: 3rem; margin-bottom: 10px; }
+
+  .loader {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--dim);
+  }
+
+  /* ─── detail modal ─── */
+  .modal {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.72);
+    backdrop-filter: blur(6px);
+    display: none;
+    align-items: center; justify-content: center;
+    padding: 20px;
+    z-index: 100;
+  }
+  .modal.open { display: flex; }
+  .modal-card {
+    background: var(--card);
+    border: 1px solid var(--divider);
+    border-radius: 20px;
+    max-width: 640px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 28px;
+    box-shadow: var(--shadow);
+    position: relative;
+  }
+  .modal-close {
+    position: absolute; top: 14px; right: 14px;
+    width: 36px; height: 36px;
+    border-radius: 10px;
+    background: var(--card-hi);
+    border: 1px solid var(--divider);
+    color: var(--text);
+    cursor: pointer;
+    font-size: 1.1rem;
+    display: grid; place-items: center;
+  }
+  .modal-head { display: flex; gap: 18px; align-items: flex-start; margin-bottom: 20px; }
+  .modal-head .icon { width: 88px; height: 88px; border-radius: 20px; overflow: hidden; flex-shrink: 0;
+                       background: var(--card-hi);
+                       box-shadow: 0 4px 14px rgba(0,0,0,0.4);  }
+  .modal-head .icon img { width: 100%; height: 100%; object-fit: cover; }
+  .modal-head h2 { font-size: 1.4rem; letter-spacing: -0.015em; margin-bottom: 4px; }
+  .modal-head .sub { color: var(--dim-2); font-size: 0.9rem; }
+  .modal-head .devinfo { color: var(--dim); font-size: 0.82rem; margin-top: 6px; }
+  .stats-row {
+    display: flex; gap: 16px; flex-wrap: wrap;
+    padding: 14px 16px; margin-bottom: 20px;
+    background: var(--card-hi);
+    border-radius: 12px;
+    font-size: 0.84rem;
+    color: var(--dim);
+  }
+  .stats-row b { color: var(--text); font-weight: 700; }
+  .screens {
+    display: flex; gap: 10px; overflow-x: auto;
+    padding-bottom: 8px;
+    margin: 0 -4px 20px;
+  }
+  .screens img {
+    flex: 0 0 auto;
+    width: 180px; height: auto;
+    border-radius: 10px;
+    border: 1px solid var(--divider);
+  }
+  .descr { color: var(--text); line-height: 1.6; font-size: 0.95rem; white-space: pre-wrap; }
+
+  .install-box { margin-top: 22px; }
+  .install-row { display: flex; gap: 10px; }
+  .install-row input {
+    flex: 1 1 auto;
+    padding: 14px 16px;
+    border-radius: 12px;
+    border: 1px solid var(--divider);
+    background: var(--card-hi);
+    color: var(--text);
+    font-size: 0.95rem;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    letter-spacing: .5px;
+    outline: none;
+    text-transform: uppercase;
+  }
+  .install-row input:focus { border-color: var(--accent); }
+  .install-row .mini {
+    padding: 14px 18px;
+    border-radius: 12px;
+    border: none;
+    background: var(--accent);
+    color: #052e1e;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .install-hint { margin-top: 10px; font-size: 0.82rem; color: var(--dim); line-height: 1.4; }
+  .install-hint a { color: var(--accent); text-decoration: none; cursor: pointer; }
+  .install-err { color: #fca5a5; font-size: 0.85rem; margin-top: 8px; display: none; }
+
+  .install-cta {
+    display: block;
+    margin-top: 22px;
+    padding: 14px 20px;
+    background: linear-gradient(135deg, var(--accent), var(--amber));
+    color: #0b1a17;
+    font-weight: 800;
+    font-size: 1rem;
+    border-radius: 12px;
+    text-align: center;
+    transition: transform .1s;
+  }
+  .install-cta:active { transform: scale(0.98); }
+
+  footer {
+    border-top: 1px solid var(--divider);
+    padding: 32px 20px;
+    text-align: center;
+    color: var(--dim-2);
+    font-size: 0.85rem;
+  }
+  footer a { color: var(--dim); }
+  footer a:hover { color: var(--text); }
+</style>
+</head>
+<body>
+<div style="padding:16px 20px;border-bottom:1px solid rgba(251,191,36,.35);background:rgba(251,191,36,.08);color:#fbbf24;text-align:center">
+  Установка временно недоступна. Каталог является локальной копией; не вводите код активации на сайте. <a href="https://t.me/octostore_support">Поддержка</a>.
+</div>
+
+<header>
+  <div class="inner">
+    <a href="/" class="brand">
+      <img class="logo" src="/icon.svg" alt="Octo Store">
+      Octo Store
+    </a>
+    <a href="/" class="back-btn">← На главную</a>
+  </div>
+</header>
+
+<section class="hero">
+  <h1>Каталог <span class="accent">приложений</span></h1>
+  <p>Локальная копия каталога: названия, описания и требования к iOS.
+     Статус установки и доступность IPA проверяются после восстановления API.</p>
+</section>
+
+<div class="controls">
+  <div class="search">
+    <input id="q" type="search" placeholder="Поиск по названию, разработчику, описанию…" autocomplete="off">
+  </div>
+  <div class="chips" id="chips"></div>
+  <div class="count" id="count">Загружается…</div>
+</div>
+
+<main>
+  <div class="grid" id="grid"></div>
+  <div class="empty" id="empty" style="display:none;">
+    <div class="big">🔎</div>
+    <div>Ничего не нашлось. Попробуй другой запрос или категорию.</div>
+  </div>
+  <div class="loader" id="loader">Загружаем каталог…</div>
+</main>
+
+<div class="modal" id="modal">
+  <div class="modal-card" id="modal-card">
+    <button class="modal-close" id="modal-close">✕</button>
+    <div id="modal-body"></div>
+  </div>
+</div>
+
+<footer>
+  Octo Store · альтернативный магазин приложений для iPhone<br>
+  📰 <a href="https://t.me/octostorenews">@octostorenews</a> ·
+  Поддержка <a href="https://t.me/octostore_support">@octostore_support</a> ·
+  <a href="/terms">Оферта</a> · <a href="/privacy">Политика</a>
+</footer>
+
+<script>
+(function() {
+  const API_CATALOG = "/catalog.json";
+  const grid    = document.getElementById("grid");
+  const chips   = document.getElementById("chips");
+  const count   = document.getElementById("count");
+  const empty   = document.getElementById("empty");
+  const loader  = document.getElementById("loader");
+  const search  = document.getElementById("q");
+  const modal   = document.getElementById("modal");
+  const mbody   = document.getElementById("modal-body");
+  const mclose  = document.getElementById("modal-close");
+
+  let apps = [];
+  let activeChip = "Все";
+  let query = "";
+
+  async function load() {
+    try {
+      const r = await fetch(new URL(API_CATALOG, document.baseURI), { headers: { Accept: "application/json" } });
+      if (r.ok) {
+        const data = await r.json();
+        apps = Array.isArray(data) ? data : (data.apps || data.items || []);
+      } else {
+        apps = [];
+      }
+    } catch (_) {
+      apps = [];
+    }
+
+    if (apps.length === 0) {
+      const r2 = await fetch("/catalog.json").catch(() => null);
+      if (r2 && r2.ok) {
+        const d = await r2.json();
+        apps = d.apps || [];
+      }
+    }
+
+    loader.style.display = "none";
+    buildChips();
+    render();
+  }
+
+  function buildChips() {
+    const cats = ["Все", ...new Set(apps.map(a => a.category).filter(Boolean))];
+    chips.innerHTML = "";
+    for (const c of cats) {
+      const el = document.createElement("div");
+      el.className = "chip" + (c === activeChip ? " active" : "");
+      el.textContent = c;
+      el.addEventListener("click", () => {
+        activeChip = c;
+        [...chips.children].forEach(x => x.classList.toggle("active", x.textContent === c));
+        render();
+      });
+      chips.appendChild(el);
+    }
+  }
+
+  function filtered() {
+    const q = query.trim().toLowerCase();
+    return apps.filter(a => {
+      if (activeChip !== "Все" && a.category !== activeChip) return false;
+      if (!q) return true;
+      const hay = [a.name, a.subtitle, a.developer, a.description, a.category]
+        .filter(Boolean).join(" ").toLowerCase();
+      return hay.includes(q);
+    });
+  }
+
+  function render() {
+    const list = filtered();
+    count.textContent = `Показано: ${list.length} из ${apps.length}`;
+    grid.innerHTML = "";
+    if (list.length === 0) {
+      empty.style.display = "block";
+      return;
+    }
+    empty.style.display = "none";
+
+    const frag = document.createDocumentFragment();
+    for (const a of list) {
+      const card = document.createElement("div");
+      card.className = "app";
+      card.innerHTML = `
+        <div class="icon"><img src="${a.icon_url || ""}" alt="" loading="lazy" onerror="this.style.display='none'"></div>
+        <div class="meta">
+          <div class="name">${escapeHtml(a.name || a.title || a.id || "—")}</div>
+          <div class="sub">${escapeHtml(a.subtitle || a.developer || "")}</div>
+          <div class="foot">
+            ${a.rating ? `<span class="rating">★ ${a.rating}</span>` : ""}
+            ${a.category ? `<span class="cat-tag">${escapeHtml(a.category)}</span>` : ""}
+          </div>
+        </div>`;
+      card.addEventListener("click", () => openDetail(a));
+      frag.appendChild(card);
+    }
+    grid.appendChild(frag);
+  }
+
+  function openDetail(a) {
+    // CDN belongs to the unavailable VPS; hide remote images instead of hanging.
+    const screensHtml = "";
+    const stats = [
+      a.rating    ? `<span><b>★ ${a.rating}</b> рейтинг</span>` : "",
+      a.size_mb   ? `<span><b>${a.size_mb}</b> МБ</span>` : "",
+      a.version   ? `<span><b>v${escapeHtml(a.version)}</b></span>` : "",
+      a.required_ios ? `<span>iOS <b>${escapeHtml(a.required_ios)}+</b></span>` : "",
+      a.downloads ? `<span><b>${a.downloads}</b> установок</span>` : "",
+    ].filter(Boolean).join("");
+
+    mbody.innerHTML = `
+      <div class="modal-head">
+        <div class="icon"><img src="${a.icon_url || ""}" alt="" onerror="this.style.display='none'"></div>
+        <div>
+          <h2>${escapeHtml(a.name || a.id)}</h2>
+          <div class="sub">${escapeHtml(a.subtitle || "")}</div>
+          <div class="devinfo">${escapeHtml(a.developer || "")} · ${escapeHtml(a.category || "")}</div>
+        </div>
+      </div>
+      ${stats ? `<div class="stats-row">${stats}</div>` : ""}
+      ${screensHtml}
+      <div class="descr">${escapeHtml(a.description || "Описание не задано.")}</div>
+      <div class="install-box" id="install-box"></div>
+    `;
+    renderInstallBox();
+    modal.classList.add("open");
+  }
+
+  function renderInstallBox() {
+    const box = document.getElementById("install-box");
+    if (!box) return;
+    box.innerHTML = `
+      <div class="install-hint">Установка IPA временно недоступна: API находится на старом VPS. Не вводите код активации на этой странице.</div>
+      <a class="install-cta" href="https://t.me/octostore_support" target="_blank" rel="noopener">Написать в поддержку</a>
+    `;
+  }
+
+  mclose.addEventListener("click", () => modal.classList.remove("open"));
+  modal.addEventListener("click", e => { if (e.target === modal) modal.classList.remove("open"); });
+  document.addEventListener("keydown", e => { if (e.key === "Escape") modal.classList.remove("open"); });
+
+  let searchTimer;
+  search.addEventListener("input", () => {
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(() => { query = search.value; render(); }, 120);
+  });
+
+  function escapeHtml(s) {
+    return String(s || "").replace(/[&<>"']/g, m => ({
+      "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+    }[m]));
+  }
+
+  load();
+})();
+</script>
+
+</body>
+</html>
