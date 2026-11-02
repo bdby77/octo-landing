@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /udid
+Disallow: /app
+
+Sitemap: https://octostore.space/sitemap.xml

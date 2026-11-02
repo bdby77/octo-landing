@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Octo Store — альтернативный магазин приложений для iPhone</title>
+<meta name="description" content="Каталог приложений для iPhone с Ad Hoc-установкой без джейлбрейка. Оплата СБП, криптовалютой или Telegram Stars.">
+<meta property="og:title" content="Octo Store">
+<meta property="og:description" content="Альтернативный магазин приложений для iPhone. Банки, игры, VPN — всё что убрали из App Store.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://octostore.space">
+<link rel="icon" type="image/svg+xml" href="/icon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="/icon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/icon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="shortcut icon" href="/favicon.ico">
+<meta property="og:image" content="https://octostore.space/icon-512.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://octostore.space/icon-512.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:         #0b1a17;
+    --bg-elev:    #0f2622;
+    --card:       #0f2622;
+    --card-alt:   #133a33;
+    --accent:     #10b981;
+    --accent-hi:  #34d399;
+    --accent-2:   #0d9488;
+    --amber:      #fbbf24;
+    --amber-hi:   #f59e0b;
+    --amber-ink:  #1f1200;
+    --text:       #d1fae5;
+    --dim:        #6ee7b7;
+    --divider:    rgba(16,185,129,0.14);
+    --green:      #22c55e;
+    --orange:     #fbbf24;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; text-decoration: none; }
+
+  /* ─── header ─── */
+  header {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(11,26,23,0.85);
+    backdrop-filter: saturate(1.4) blur(14px);
+    border-bottom: 1px solid var(--divider);
+  }
+  header .inner {
+    max-width: 1140px; margin: 0 auto; padding: 14px 24px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 1.1rem; }
+  .brand .logo {
+    width: 36px; height: 36px; border-radius: 9px;
+    object-fit: contain;
+    background: linear-gradient(135deg, var(--accent), var(--amber));
+    box-shadow: 0 2px 10px rgba(16,185,129,0.25);
+  }
+  nav.menu { display: flex; gap: 24px; }
+  nav.menu a { color: var(--dim); font-size: 0.92rem; transition: color .15s; }
+  nav.menu a:hover { color: var(--text); }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 10px 18px; border-radius: 10px;
+    font-weight: 600; font-size: 0.92rem; cursor: pointer;
+    border: none; transition: transform .1s, background .15s;
+    white-space: nowrap;
+  }
+  .btn:active { transform: scale(0.97); }
+  .btn.primary {
+    background: var(--accent); color: #052e1e;
+    box-shadow: 0 2px 20px rgba(16,185,129,0.3);
+  }
+  .btn.primary:hover { background: var(--amber); color: var(--amber-ink); }
+  .btn.ghost {
+    background: transparent; color: var(--text);
+    border: 1px solid var(--divider);
+  }
+  .btn.ghost:hover { background: var(--card); }
+  .btn.lg { padding: 14px 24px; font-size: 1rem; border-radius: 12px; }
+
+  /* ─── sections ─── */
+  section { padding: 72px 24px; }
+  .wrap { max-width: 1140px; margin: 0 auto; }
+  h1, h2, h3 { letter-spacing: -0.02em; line-height: 1.15; }
+  h2.title {
+    font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+    font-weight: 800;
+    margin-bottom: 16px; text-align: center;
+  }
+  .kicker {
+    display: inline-block; padding: 5px 12px; border-radius: 999px;
+    background: rgba(16,185,129,0.14); color: var(--accent);
+    font-size: 0.78rem; font-weight: 600; letter-spacing: 0.04em;
+    text-transform: uppercase; margin-bottom: 12px;
+  }
+  .subtitle {
+    text-align: center; color: var(--dim); font-size: 1.05rem;
+    max-width: 640px; margin: 0 auto 48px;
+  }
+
+  /* ─── hero ─── */
+  .hero {
+    padding-top: 96px; padding-bottom: 60px;
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: ''; position: absolute; inset: 0;
+    background:
+      radial-gradient(900px 500px at 85% -10%, rgba(251,191,36,0.14), transparent 60%),
+      radial-gradient(700px 400px at 10% 10%,  rgba(16,185,129,0.22), transparent 60%);
+    pointer-events: none;
+  }
+  .hero .wrap { position: relative; z-index: 1; display: grid; gap: 60px; grid-template-columns: 1.1fr 1fr; align-items: center; }
+  @media (max-width: 880px) { .hero .wrap { grid-template-columns: 1fr; } }
+  .hero h1 {
+    font-size: clamp(2.2rem, 5.4vw, 3.6rem);
+    font-weight: 800; margin-bottom: 18px;
+  }
+  .hero h1 .accent { color: var(--accent); }
+  .hero .lead {
+    color: var(--dim); font-size: 1.1rem; margin-bottom: 32px; max-width: 500px;
+  }
+  .hero .cta { display: flex; gap: 12px; flex-wrap: wrap; }
+  .hero .trust {
+    margin-top: 28px; display: flex; gap: 24px; color: var(--dim); font-size: 0.85rem;
+    flex-wrap: wrap;
+  }
+  .hero .trust span { display: inline-flex; align-items: center; gap: 6px; }
+  .hero .trust span::before { content: '✓'; color: var(--amber); font-weight: 700; }
+
+  /* phone mockup */
+  .phone {
+    width: 100%; max-width: 320px; margin: 0 auto;
+    aspect-ratio: 9 / 19; position: relative;
+    background: #000; border-radius: 36px;
+    border: 3px solid #072018;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.6), inset 0 0 0 2px rgba(16,185,129,0.05);
+    overflow: hidden;
+  }
+  .phone::before {
+    content: ''; position: absolute; top: 0; left: 50%;
+    transform: translateX(-50%); width: 110px; height: 24px;
+    background: #000; border-radius: 0 0 18px 18px; z-index: 3;
+  }
+  .phone .screen {
+    position: absolute; inset: 0; background: var(--bg);
+    padding: 36px 16px 24px; display: flex; flex-direction: column; gap: 12px;
+  }
+  .phone .ph-row {
+    background: var(--card); border-radius: 14px;
+    padding: 12px; display: flex; gap: 10px; align-items: center;
+  }
+  .phone .ph-icon {
+    width: 46px; height: 46px; border-radius: 11px;
+    background: linear-gradient(135deg, var(--accent), var(--amber));
+    display: grid; place-items: center; font-size: 22px;
+  }
+  .phone .ph-name { font-weight: 700; font-size: 0.9rem; }
+  .phone .ph-sub { font-size: 0.72rem; color: var(--dim); margin-top: 2px; }
+  .phone .ph-install {
+    margin-left: auto; background: var(--accent); color: #052e1e;
+    padding: 5px 12px; border-radius: 999px; font-size: 0.72rem; font-weight: 700;
+  }
+  .phone .ph-h {
+    font-size: 0.72rem; color: var(--dim); text-transform: uppercase;
+    letter-spacing: 0.08em; padding: 0 4px; margin-top: 4px;
+  }
+
+  /* ─── how it works ─── */
+  .steps { display: grid; gap: 20px; grid-template-columns: repeat(4, 1fr); }
+  @media (max-width: 820px) { .steps { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 480px) { .steps { grid-template-columns: 1fr; } }
+  .step {
+    background: var(--card); border-radius: 16px; padding: 24px;
+    position: relative;
+  }
+  .step .n {
+    width: 36px; height: 36px; border-radius: 10px;
+    background: rgba(16,185,129,0.18); color: var(--accent);
+    display: grid; place-items: center; font-weight: 800; font-size: 1rem;
+    margin-bottom: 14px;
+  }
+  .step h3 { font-size: 1rem; margin-bottom: 6px; }
+  .step p { color: var(--dim); font-size: 0.9rem; }
+
+  /* ─── catalog preview ─── */
+  .cat-chips {
+    display: flex; gap: 8px; flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 28px;
+  }
+  .cat-chip {
+    padding: 7px 14px; border-radius: 999px;
+    background: var(--card); border: 1px solid var(--divider);
+    color: var(--dim); font-size: 0.82rem; font-weight: 600;
+    transition: all .15s;
+  }
+  .cat-chip:hover { color: var(--text); border-color: var(--accent); background: var(--card-alt); }
+
+  .app-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 14px;
+  }
+  @media (max-width: 480px) {
+    .app-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+  }
+  .app-tile {
+    background: var(--card); border: 1px solid var(--divider);
+    border-radius: 14px; padding: 14px;
+    display: flex; align-items: center; gap: 12px;
+    transition: transform .15s, border-color .15s, background .15s;
+    text-decoration: none; color: inherit;
+    min-height: 86px;
+  }
+  .app-tile:hover { transform: translateY(-2px); border-color: var(--accent); background: var(--card-alt); }
+  .app-tile .icon {
+    width: 56px; height: 56px; border-radius: 13px;
+    flex-shrink: 0; overflow: hidden;
+    background: var(--card-alt);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3), inset 0 0 0 1px rgba(255,255,255,0.03);
+  }
+  .app-tile .icon img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .app-tile .meta { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+  .app-tile .name { font-weight: 700; font-size: 0.95rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .app-tile .sub  { font-size: 0.78rem; color: var(--dim); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .app-tile .rating { font-size: 0.76rem; color: var(--amber); font-weight: 600; margin-top: 2px; }
+
+  .see-all-wrap { text-align: center; margin-top: 36px; }
+  .see-all-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 14px 28px; border-radius: 12px;
+    background: var(--accent); color: #052e1e;
+    font-weight: 700; font-size: 1rem;
+    transition: background .15s, transform .1s;
+  }
+  .see-all-btn:hover { background: var(--amber); color: var(--amber-ink); }
+  .see-all-btn:active { transform: scale(0.98); }
+
+  .app-grid-loader { text-align: center; color: var(--dim); padding: 40px; grid-column: 1 / -1; }
+
+  /* ─── pricing ─── */
+  .prices { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; }
+  @media (max-width: 1080px) { .prices { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 720px)  { .prices { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 420px)  { .prices { grid-template-columns: 1fr; } }
+  .price {
+    background: var(--card); border-radius: 18px; padding: 24px 20px;
+    text-align: center; position: relative;
+    border: 1px solid transparent;
+  }
+  .price.hot {
+    border-color: var(--amber);
+    background: linear-gradient(135deg, rgba(251,191,36,0.09), rgba(16,185,129,0.09));
+  }
+  .price.hot .badge {
+    position: absolute; top: -10px; left: 50%; transform: translateX(-50%);
+    background: var(--amber); color: var(--amber-ink); font-size: 0.7rem;
+    padding: 3px 10px; border-radius: 999px; font-weight: 700;
+    letter-spacing: 0.04em;
+  }
+  .price .period { color: var(--dim); font-size: 0.85rem; margin-bottom: 8px; }
+  .price .amount { font-size: 1.8rem; font-weight: 800; margin-bottom: 2px; color: var(--amber); }
+  .price .amount small { font-size: 0.95rem; font-weight: 500; color: var(--dim); }
+  .price .month { color: var(--dim); font-size: 0.76rem; margin-bottom: 16px; }
+  .price .pbtn {
+    width: 100%; padding: 10px; border-radius: 10px;
+    background: var(--card-alt); color: var(--text); font-weight: 600; font-size: 0.9rem;
+    display: block; transition: background .15s, color .15s;
+  }
+  .price.hot .pbtn { background: var(--accent); color: #052e1e; }
+  .price .pbtn:hover { background: var(--amber); color: var(--amber-ink); }
+
+  /* ─── partner banner ─── */
+  .partner {
+    background: linear-gradient(135deg, rgba(16,185,129,0.14), rgba(251,191,36,0.14));
+    border: 1px solid rgba(251,191,36,0.3);
+    border-radius: 24px; padding: 48px 40px;
+    display: grid; grid-template-columns: 2fr 1fr; gap: 32px; align-items: center;
+  }
+  @media (max-width: 780px) { .partner { grid-template-columns: 1fr; text-align: center; } }
+  .partner h2 { font-size: 1.8rem; font-weight: 800; margin-bottom: 10px; }
+  .partner p  { color: var(--dim); margin-bottom: 20px; }
+  .partner .big { font-size: 4rem; font-weight: 800; color: var(--amber); line-height: 1; text-align: center; }
+  .partner .big small { font-size: 1.1rem; display: block; color: var(--dim); font-weight: 500; margin-top: 6px; }
+
+  /* ─── faq ─── */
+  .faq-list { display: grid; gap: 10px; max-width: 760px; margin: 0 auto; }
+  details.faq {
+    background: var(--card); border-radius: 14px; padding: 18px 22px;
+    transition: background .15s;
+  }
+  details.faq[open] { background: var(--card-alt); }
+  details.faq summary {
+    cursor: pointer; font-weight: 600; font-size: 1rem;
+    list-style: none; display: flex; justify-content: space-between; align-items: center;
+  }
+  details.faq summary::-webkit-details-marker { display: none; }
+  details.faq summary::after {
+    content: '+'; font-size: 1.4rem; color: var(--dim); transition: transform .2s;
+  }
+  details.faq[open] summary::after { transform: rotate(45deg); }
+  details.faq .answer {
+    color: var(--dim); font-size: 0.94rem; padding-top: 12px; line-height: 1.6;
+  }
+
+  /* ─── footer ─── */
+  footer {
+    background: var(--bg-elev);
+    border-top: 1px solid var(--divider);
+    padding: 48px 24px 28px;
+  }
+  footer .wrap {
+    display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+  }
+  @media (max-width: 760px) { footer .wrap { grid-template-columns: 1fr; } }
+  footer h4 { font-size: 0.85rem; color: var(--dim); margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.06em; }
+  footer ul { list-style: none; }
+  footer li { margin-bottom: 8px; }
+  footer li a { color: var(--text); font-size: 0.92rem; opacity: 0.85; }
+  footer li a:hover { opacity: 1; }
+  footer .copy {
+    max-width: 1140px; margin: 32px auto 0;
+    padding-top: 24px; border-top: 1px solid var(--divider);
+    color: var(--dim); font-size: 0.8rem; text-align: center;
+  }
+
+  /* ─── scroll progress bar ─── */
+  .scroll-bar {
+    position: fixed; top: 0; left: 0; height: 3px; width: 0;
+    background: linear-gradient(90deg, var(--accent), var(--amber));
+    z-index: 100; transition: width .08s linear;
+    box-shadow: 0 0 10px rgba(16,185,129,0.6);
+  }
+
+  /* ─── scroll-reveal ─── */
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity .7s ease, transform .7s ease; }
+  .reveal.in { opacity: 1; transform: translateY(0); }
+  .reveal.d1 { transition-delay: .1s; }
+  .reveal.d2 { transition-delay: .2s; }
+  .reveal.d3 { transition-delay: .3s; }
+
+  /* ─── hero marquee ─── */
+  .marquee-wrap {
+    margin: 48px -24px 0; overflow: hidden;
+    mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+  }
+  .marquee { display: flex; gap: 12px; width: max-content; animation: marquee 42s linear infinite; padding: 0 24px; }
+  .marquee .tile {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 16px 10px 10px;
+    background: var(--card); border: 1px solid var(--divider);
+    border-radius: 14px; flex-shrink: 0;
+  }
+  .marquee .tile img { width: 44px; height: 44px; border-radius: 10px; object-fit: cover; box-shadow: 0 2px 8px rgba(0,0,0,0.4); }
+  .marquee .tile .n { font-weight: 700; font-size: 0.88rem; white-space: nowrap; }
+  .marquee .tile .r { font-size: 0.72rem; color: var(--amber); }
+  @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+  /* ─── animated counter ─── */
+  .stats-section { background: var(--bg-elev); padding: 70px 24px; }
+  .stats-grid { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; text-align: center; }
+  @media (max-width: 720px) { .stats-grid { grid-template-columns: 1fr; gap: 24px; } }
+  .stat .num {
+    font-size: 3.4rem; font-weight: 800; letter-spacing: -0.03em;
+    background: linear-gradient(135deg, var(--accent-hi), var(--amber));
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+    line-height: 1; min-width: 160px; display: inline-block;
+  }
+  .stat .lbl { color: var(--dim); font-size: 0.95rem; margin-top: 10px; font-weight: 600; }
+
+  /* ─── calc ─── */
+  .calc-wrap { max-width: 760px; margin: 0 auto; background: var(--card); border: 1px solid var(--divider); border-radius: 22px; padding: 40px; }
+  .calc-wrap p.hint { color: var(--dim); font-size: 0.95rem; margin-bottom: 32px; }
+  .calc-row { display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: center; margin-bottom: 14px; }
+  .calc-wrap label { color: var(--dim); font-weight: 600; }
+  .calc-wrap input[type=range] { -webkit-appearance: none; width: 100%; height: 6px; background: var(--card-alt); border-radius: 3px; outline: none; }
+  .calc-wrap input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none; width: 24px; height: 24px;
+    background: linear-gradient(135deg, var(--accent), var(--amber));
+    border-radius: 50%; cursor: pointer; box-shadow: 0 2px 10px rgba(16,185,129,0.4);
+  }
+  .calc-wrap .val { font-size: 2rem; font-weight: 800; color: var(--amber); min-width: 60px; text-align: right; }
+  .calc-wrap .result { margin-top: 24px; padding: 24px; background: linear-gradient(135deg, rgba(16,185,129,0.1), rgba(251,191,36,0.08)); border-radius: 16px; text-align: center; border: 1px solid rgba(251,191,36,0.3); }
+  .calc-wrap .save-big { font-size: 2.4rem; font-weight: 800; color: var(--amber); }
+  .calc-wrap .save-sm { color: var(--dim); font-size: 0.9rem; margin-top: 4px; }
+
+  /* ─── testimonials ─── */
+  .testim-wrap { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; max-width: 1100px; margin: 0 auto; }
+  @media (max-width: 820px) { .testim-wrap { grid-template-columns: 1fr; } }
+  .testim { background: var(--card); border: 1px solid var(--divider); border-radius: 18px; padding: 28px 24px; }
+  .testim .stars { color: var(--amber); margin-bottom: 10px; letter-spacing: 2px; }
+  .testim .quote { color: var(--text); font-size: 0.98rem; line-height: 1.55; margin-bottom: 18px; }
+  .testim .who { display: flex; align-items: center; gap: 12px; }
+  .testim .av { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; color: #0b1a17; }
+  .testim .n { font-weight: 700; font-size: 0.92rem; }
+  .testim .r { color: var(--dim); font-size: 0.82rem; }
+
+  /* ─── FAQ smooth accordion override ─── */
+  details.faq {
+    background: var(--card); border: 1px solid var(--divider); border-radius: 14px;
+    padding: 0; overflow: hidden; transition: border-color .15s, background .15s;
+  }
+  details.faq[open] { background: var(--card-alt); border-color: var(--accent); }
+  details.faq summary {
+    cursor: pointer; padding: 18px 22px; font-weight: 600; font-size: 1rem;
+    list-style: none; display: flex; justify-content: space-between; align-items: center;
+  }
+  details.faq summary::-webkit-details-marker { display: none; }
+  details.faq summary::after { content: '+'; font-size: 1.6rem; color: var(--dim); transition: transform .25s, color .15s; }
+  details.faq[open] summary::after { transform: rotate(45deg); color: var(--amber); }
+  details.faq .answer {
+    color: var(--dim); font-size: 0.94rem; line-height: 1.6;
+    max-height: 0; padding: 0 22px; overflow: hidden;
+    transition: max-height .35s ease, padding .25s ease;
+  }
+  details.faq[open] .answer { max-height: 600px; padding: 0 22px 22px; }
+
+  /* ─── live ticker toast ─── */
+  .toast {
+    position: fixed; bottom: 24px; left: 24px; z-index: 60;
+    background: var(--card); border: 1px solid var(--accent);
+    padding: 12px 16px 12px 14px; border-radius: 14px;
+    display: flex; align-items: center; gap: 12px; max-width: 320px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 20px rgba(16,185,129,0.15);
+    transform: translateX(-120%); opacity: 0;
+    transition: transform .4s ease, opacity .4s ease;
+  }
+  .toast.on { transform: translateX(0); opacity: 1; }
+  .toast .av {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--amber));
+    color: #0b1a17; font-weight: 800; font-size: 0.9rem;
+    display: grid; place-items: center; flex-shrink: 0;
+  }
+  .toast .msg { font-size: 0.86rem; color: var(--text); }
+  .toast .msg b { color: var(--accent-hi); }
+  @media (max-width: 480px) { .toast { bottom: 90px; left: 12px; right: 12px; max-width: none; } }
+
+  /* ─── floating buy CTA ─── */
+  .float-cta {
+    position: fixed; bottom: 24px; right: 24px; z-index: 60;
+    padding: 14px 24px; border-radius: 999px;
+    background: linear-gradient(135deg, var(--accent), var(--amber));
+    color: #052e1e;
+    font-weight: 800; font-size: 0.95rem;
+    box-shadow: 0 8px 32px rgba(16,185,129,0.4);
+    transform: translateY(100px); opacity: 0;
+    transition: transform .4s ease, opacity .4s ease;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .float-cta.on { transform: translateY(0); opacity: 1; }
+  .float-cta:hover { transform: translateY(-3px); }
+
+  /* save-badge на тарифах */
+  .save-badge {
+    display: inline-block; background: var(--accent); color: #052e1e;
+    padding: 3px 10px; border-radius: 999px; font-size: 0.7rem; font-weight: 700;
+    letter-spacing: 0.03em; margin-bottom: 10px;
+  }
+
+  /* ─── final CTA ─── */
+  .final {
+    text-align: center;
+    background: radial-gradient(600px 300px at 50% 0%, rgba(16,185,129,0.18), transparent 70%);
+  }
+  .final h2 { font-size: clamp(1.9rem, 4vw, 2.6rem); font-weight: 800; margin-bottom: 14px; }
+  .final p { color: var(--dim); margin-bottom: 28px; }
+</style>
+</head>
+<body>
+
+<div style="max-width:1120px;margin:18px auto 0;padding:14px 20px;border:1px solid rgba(251,191,36,.35);border-radius:12px;background:rgba(251,191,36,.08);color:#fbbf24;text-align:center">
+  Сайт работает на бесплатном хостинге. Установка и активация временно недоступны из-за блокировки основного сервера. Коды и платёжные данные на сайте не вводи. Поддержка: <a href="https://t.me/octostore_support">@octostore_support</a>.
+</div>
+
+<div class="scroll-bar" id="scrollbar"></div>
+
+<header>
+  <div class="inner">
+    <a href="/" class="brand">
+      <img class="logo" src="/icon.svg" alt="Octo Store">
+      <span>Octo</span>
+    </a>
+    <nav class="menu">
+      <a href="#how">Как это работает</a>
+      <a href="#catalog">Каталог</a>
+      <a href="#prices">Тарифы</a>
+      <a href="#faq">FAQ</a>
+      <a href="https://t.me/octostorenews">📰 Новости</a>
+    </nav>
+    <a href="https://t.me/octo_store_bot" class="btn primary">Открыть бота</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <span class="kicker">Для iPhone · клиент Octo — iOS 16+</span>
+      <h1>Приложения, которые <span class="accent">убрали</span> из App Store — на твоём iPhone</h1>
+      <p class="lead">
+        Банки РФ, премиум-версии игр, VPN, мессенджеры. Устанавливаются в один тап,
+        без джейлбрейка, без компьютера. Подписка — через СБП.
+      </p>
+      <div class="cta">
+        <a href="#prices" class="btn primary lg">Выбрать тариф</a>
+        <a href="#how" class="btn ghost lg">Как это работает</a>
+      </div>
+      <div class="trust">
+        <span>без джейлбрейка</span>
+        <span>оплата СБП</span>
+        <span>одно устройство</span>
+      </div>
+    </div>
+    <div class="phone">
+      <div class="screen">
+        <div class="ph-h">Главная</div>
+        <div class="ph-row">
+          <div class="ph-icon">🏦</div>
+          <div>
+            <div class="ph-name">Яндекс Банк</div>
+            <div class="ph-sub">Удалён из App Store</div>
+          </div>
+          <div class="ph-install">Установить</div>
+        </div>
+        <div class="ph-row">
+          <div class="ph-icon" style="background: linear-gradient(135deg,#ffd43b,#f59e0b)">🏦</div>
+          <div>
+            <div class="ph-name">Т-Банк</div>
+            <div class="ph-sub">Бывший Тинькофф</div>
+          </div>
+          <div class="ph-install">Установить</div>
+        </div>
+        <div class="ph-row">
+          <div class="ph-icon" style="background: linear-gradient(135deg,#22c55e,#15803d)">🎮</div>
+          <div>
+            <div class="ph-name">Minecraft Premium</div>
+            <div class="ph-sub">Полная версия</div>
+          </div>
+          <div class="ph-install">Установить</div>
+        </div>
+        <div class="ph-row">
+          <div class="ph-icon" style="background: linear-gradient(135deg,#1db954,#0d7a37)">🎵</div>
+          <div>
+            <div class="ph-name">Spotify Premium</div>
+            <div class="ph-sub">Без рекламы, оффлайн</div>
+          </div>
+          <div class="ph-install">Установить</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="marquee-wrap">
+    <div class="marquee" id="marquee"></div>
+  </div>
+</section>
+
+<section id="stats" class="stats-section">
+  <div class="stats-grid">
+    <div class="stat reveal">
+      <div class="num">1</div>
+      <div class="lbl">устройство на один код</div>
+    </div>
+    <div class="stat reveal d1">
+      <div class="num">3</div>
+      <div class="lbl">способа оплаты</div>
+    </div>
+    <div class="stat reveal d2">
+      <div class="num">7 дней</div>
+      <div class="lbl">срок запроса возврата по оферте</div>
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="wrap">
+    <div style="text-align:center">
+      <span class="kicker">Четыре шага</span>
+    </div>
+    <h2 class="title">Как это работает</h2>
+    <p class="subtitle">От покупки до установленного приложения — пара минут. Без Mac, без iTunes, без джейлбрейка.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="n">1</div>
+        <h3>Купи подписку</h3>
+        <p>Открой Telegram-бот, выбери тариф и способ оплаты. Код <code>OCT-...</code> придёт в чат после подтверждения платежа.</p>
+      </div>
+      <div class="step">
+        <div class="n">2</div>
+        <h3>Поставь приложение Octo</h3>
+        <p>Открой установочную ссылку из бота в Safari. Разреши временный профиль для определения UDID, затем установи клиент Octo.</p>
+      </div>
+      <div class="step">
+        <div class="n">3</div>
+        <h3>Введи код в приложении</h3>
+        <p>Открой Octo, введи <code>OCT-...</code>. Устройство привязывается один раз, автоматически.</p>
+      </div>
+      <div class="step">
+        <div class="n">4</div>
+        <h3>Устанавливай что хочешь</h3>
+        <p>Выбирай приложения из каталога — установка и обновления доступны в течение подписки.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="catalog" style="background: var(--bg-elev);">
+  <div class="wrap">
+    <div style="text-align:center">
+      <span class="kicker" id="catalog-kicker">300+ приложений</span>
+    </div>
+    <h2 class="title">Что внутри Octo Store</h2>
+    <p class="subtitle">Удалённые из App Store приложения, модифицированные версии и игры. Возможности зависят от конкретной сборки и версии iOS.</p>
+
+    <div class="cat-chips" id="cat-chips"></div>
+
+    <div class="app-grid" id="app-grid">
+      <div class="app-grid-loader">Загружаем каталог…</div>
+    </div>
+
+    <div class="see-all-wrap">
+      <a href="/catalog" class="see-all-btn" id="see-all-btn">Открыть весь каталог →</a>
+    </div>
+  </div>
+</section>
+
+<script>
+(function() {
+  const grid        = document.getElementById("app-grid");
+  const chipsBox    = document.getElementById("cat-chips");
+  const kicker      = document.getElementById("catalog-kicker");
+  const seeAllBtn   = document.getElementById("see-all-btn");
+
+  fetch("/catalog.json").then(r => r.ok ? r.json() : null).then(data => {
+    if (!data || !data.apps) return;
+    const apps  = data.apps;
+    const chips = data.chips || [];
+
+    kicker.textContent = `${apps.length}+ приложений`;
+    seeAllBtn.textContent = `Открыть все ${apps.length} приложений →`;
+
+    chipsBox.innerHTML = "";
+    for (const c of chips.slice(0, 9)) {
+      const el = document.createElement("a");
+      el.href = "/catalog?cat=" + encodeURIComponent(c);
+      el.className = "cat-chip";
+      el.textContent = c;
+      chipsBox.appendChild(el);
+    }
+
+    // show one app per category up to 16, prefer apps with high rating/downloads
+    const byCat = {};
+    for (const a of apps) {
+      if (!a.icon_url || !a.name) continue;
+      (byCat[a.category] = byCat[a.category] || []).push(a);
+    }
+    for (const k of Object.keys(byCat)) {
+      byCat[k].sort((a, b) => (b.rating || 0) - (a.rating || 0) || (b.downloads || 0) - (a.downloads || 0));
+    }
+    const picks = [];
+    const cats = Object.keys(byCat);
+    let round = 0;
+    while (picks.length < 16 && round < 10) {
+      for (const k of cats) {
+        if (byCat[k][round]) picks.push(byCat[k][round]);
+        if (picks.length >= 16) break;
+      }
+      round++;
+    }
+
+    grid.innerHTML = "";
+    for (const a of picks) {
+      const el = document.createElement("a");
+      el.className = "app-tile";
+      el.href = "/catalog#" + encodeURIComponent(a.id || "");
+      el.innerHTML = `
+        <div class="icon"><img src="${a.icon_url}" alt="" loading="lazy" onerror="this.style.display='none'"></div>
+        <div class="meta">
+          <div class="name">${escapeHtml(a.name)}</div>
+          <div class="sub">${escapeHtml(a.subtitle || a.category || "")}</div>
+          ${a.rating ? `<div class="rating">★ ${a.rating}</div>` : ""}
+        </div>`;
+      grid.appendChild(el);
+    }
+  }).catch(() => {});
+
+  function escapeHtml(s) {
+    return String(s || "").replace(/[&<>"']/g, m => ({
+      "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+    }[m]));
+  }
+})();
+</script>
+
+<section id="prices">
+  <div class="wrap">
+    <div style="text-align:center">
+      <span class="kicker">Один раз платишь — пользуешься</span>
+    </div>
+    <h2 class="title">Тарифы</h2>
+    <p class="subtitle">Любая подписка открывает весь каталог. Отличается только срок действия.</p>
+    <div class="prices">
+      <div class="price">
+        <div class="period">1 месяц</div>
+        <div class="amount">300<small>₽</small></div>
+        <div class="month">300₽ / мес</div>
+        <a href="https://t.me/octo_store_bot?start=plan_1m" class="pbtn">Купить</a>
+      </div>
+      <div class="price">
+        <div class="period">3 месяца</div>
+        <div class="amount">700<small>₽</small></div>
+        <div class="month">233₽ / мес</div>
+        <a href="https://t.me/octo_store_bot?start=plan_3m" class="pbtn">Купить</a>
+      </div>
+      <div class="price hot">
+        <span class="badge">ВЫГОДНО</span>
+        <span class="save-badge">−33% за месяц</span>
+        <div class="period">6 месяцев</div>
+        <div class="amount">1200<small>₽</small></div>
+        <div class="month">200₽ / мес</div>
+        <a href="https://t.me/octo_store_bot?start=plan_6m" class="pbtn">Купить</a>
+      </div>
+      <div class="price">
+        <span class="save-badge">−48% за месяц</span>
+        <div class="period">11 месяцев</div>
+        <div class="amount">1700<small>₽</small></div>
+        <div class="month">155₽ / мес</div>
+        <a href="https://t.me/octo_store_bot?start=plan_11m" class="pbtn">Купить</a>
+      </div>
+      <div class="price">
+        <span class="save-badge" style="background:var(--amber);color:#1f1200">лучшая цена</span>
+        <div class="period">Навсегда</div>
+        <div class="amount">3500<small>₽</small></div>
+        <div class="month">один раз</div>
+        <a href="https://t.me/octo_store_bot?start=plan_forever" class="pbtn">Купить</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="calc" style="background: var(--bg-elev);">
+  <div class="wrap">
+    <h2 class="title reveal" style="margin-bottom:36px">Сколько ты экономишь?</h2>
+    <div class="calc-wrap reveal">
+      <p class="hint">Передвинь ползунок — покажем экономию против покупок приложений напрямую.</p>
+      <div class="calc-row">
+        <label for="apps_per_mo">Приложений в месяц</label>
+        <span class="val" id="apps_val">8</span>
+      </div>
+      <input type="range" id="apps_per_mo" min="1" max="30" value="8">
+      <div class="calc-row" style="margin-top:28px">
+        <label>Средняя цена Premium-app</label>
+        <span class="val" id="price_val">~450₽</span>
+      </div>
+      <div class="result">
+        <div>Экономия с подпиской Octo <b style="color:var(--text)">200₽/мес</b> (тариф 6м):</div>
+        <div class="save-big" id="save_val">3400₽/мес</div>
+        <div class="save-sm" id="save_year">= <b>40 800₽</b> в год</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="testim">
+  <div class="wrap">
+    <h2 class="title reveal">Что важно знать перед покупкой</h2>
+    <div class="testim-wrap">
+      <div class="testim reveal">
+        <div class="quote"><b>Без компьютера и джейлбрейка</b><br>Получаешь код в Telegram, привязываешь одно устройство и выбираешь приложения из каталога.</div>
+      </div>
+      <div class="testim reveal d1">
+        <div class="quote"><b>Оплата разными способами</b><br>СБП через Platega, криптовалюта через CryptoBot или Telegram Stars. Код выдаётся после подтверждения платежа.</div>
+      </div>
+      <div class="testim reveal d2">
+        <div class="quote"><b>Поддержка при установке</b><br>Есть пошаговая инструкция и поддержка @octostore_support. Работа подписанных приложений зависит от действительности Apple-подписи.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="partner">
+      <div>
+        <h2>Партнёрская программа</h2>
+        <p>Приглашай друзей — получай 10% от каждой их покупки на баланс. Вывод через СБП от 500₽.</p>
+        <a href="https://t.me/octo_store_bot" class="btn primary">Получить реф-ссылку</a>
+      </div>
+      <div class="big">10%<small>с каждой покупки</small></div>
+    </div>
+  </div>
+</section>
+
+<section id="faq" style="background: var(--bg-elev);">
+  <div class="wrap">
+    <h2 class="title">Частые вопросы</h2>
+    <div class="faq-list">
+      <details class="faq">
+        <summary>Нужен ли джейлбрейк?</summary>
+        <div class="answer">Нет. Octo использует Ad Hoc-подпись Apple Developer и привязку UDID твоего устройства. Джейлбрейк не нужен; работа установленных приложений зависит от действительности подписи.</div>
+      </details>
+      <details class="faq">
+        <summary>Это официальный App Store?</summary>
+        <div class="answer">Нет. Octo не связан с Apple и использует Ad Hoc-установку вместо App Store. Доступность сборок зависит от подписи и совместимости; торговые марки и права на приложения принадлежат их владельцам.</div>
+      </details>
+      <details class="faq">
+        <summary>На сколько устройств можно установить?</summary>
+        <div class="answer">Одна подписка — одно устройство. Привязка происходит автоматически при первой установке. Если нужно другое устройство — оформи вторую подписку или напиши в поддержку для переноса.</div>
+      </details>
+      <details class="faq">
+        <summary>Как запросить возврат?</summary>
+        <div class="answer">Напиши в @octostore_support в течение 7 дней после оплаты. После этого срока возврат рассматривается при технической невозможности предоставить услугу. Подробные условия — в <a href="/terms">оферте</a>.</div>
+      </details>
+      <details class="faq">
+        <summary>Как платить, если я из РФ?</summary>
+        <div class="answer">СБП (Система Быстрых Платежей) — работает с любым российским банком. QR-код или перевод по номеру телефона прямо из приложения банка.</div>
+      </details>
+      <details class="faq">
+        <summary>Что происходит после окончания подписки?</summary>
+        <div class="answer">Новые установки и обновления доступны при активной подписке. Работа уже установленных приложений зависит от действительности их Apple-подписи; при необходимости поможем с новой подписью по условиям оферты.</div>
+      </details>
+      <details class="faq">
+        <summary>Будут ли списываться деньги автоматически?</summary>
+        <div class="answer">Нет. Подписка разовая — платишь один раз за выбранный срок. Автосписания нет. Хочешь продлить — покупаешь снова.</div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<section class="final">
+  <div class="wrap">
+    <h2>Пара минут — и твой iPhone снова работает так, как ты хочешь</h2>
+    <p>Открой Telegram-бот и начни с любого тарифа. Код приходит после подтверждения оплаты.</p>
+    <a href="https://t.me/octo_store_bot" class="btn primary lg">Открыть Octo в Telegram →</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <div class="brand" style="margin-bottom:16px">
+        <img class="logo" src="/icon.svg" alt="Octo Store">
+        <span>Octo Store</span>
+      </div>
+      <p style="color: var(--dim); font-size: 0.88rem; max-width: 320px">
+        Альтернативный магазин приложений для iPhone. Удалённые из App Store приложения, Premium-игры, VPN.
+      </p>
+    </div>
+    <div>
+      <h4>Продукт</h4>
+      <ul>
+        <li><a href="#how">Как это работает</a></li>
+        <li><a href="#catalog">Каталог</a></li>
+        <li><a href="#prices">Тарифы</a></li>
+        <li><a href="https://t.me/octo_store_bot">Купить</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Контакты</h4>
+      <ul>
+        <li><a href="https://t.me/octo_store_bot">Telegram-бот</a></li>
+        <li><a href="https://t.me/octostorenews">📰 Новостной канал</a></li>
+        <li><a href="https://t.me/octostore_support">Поддержка</a></li>
+        <li><a href="mailto:ezzforum@gmail.com">ezzforum@gmail.com</a></li>
+        <li><a href="/terms">Условия использования</a></li>
+        <li><a href="/privacy">Конфиденциальность</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="copy">© 2026 Octo Store. Не аффилирован с Apple Inc. Все торговые марки принадлежат их владельцам.</div>
+</footer>
+
+<a href="#prices" class="float-cta" id="floatcta">🛍 Купить подписку</a>
+
+<script>
+(function() {
+  // Forward campaign attribution into the supported Telegram deep-link format.
+  const params = new URLSearchParams(window.location.search);
+  const source = params.get('src') || params.get('utm_source') || '';
+  const campaign = params.get('campaign') || params.get('utm_campaign') || '';
+  if (/^[a-z0-9][a-z0-9_-]{0,31}$/.test(source)) {
+    let tag = /^[a-z0-9][a-z0-9_-]{0,47}$/.test(campaign) ? campaign : 'direct';
+    document.querySelectorAll('a[href*="t.me/octo_store_bot"]').forEach(link => {
+      const url = new URL(link.href);
+      const current = url.searchParams.get('start') || '';
+      const action = /^(buy|plan_(1m|3m|6m|11m|forever))$/.test(current) ? current + '__' : '';
+      // Telegram permits at most 64 chars: shorten campaign first, then source,
+      // without replacing plan_NN with a generic source-only start link.
+      if ((action + 'src_' + source + '__' + tag).length > 64) tag = 'direct';
+      const available = 64 - (action + 'src_' + '__' + tag).length;
+      const shortSource = source.slice(0, Math.max(1, available));
+      url.searchParams.set('start', action + 'src_' + shortSource + '__' + tag);
+      link.href = url.toString();
+    });
+  }
+
+  // ── scroll progress bar
+  const bar = document.getElementById('scrollbar');
+  if (bar) window.addEventListener('scroll', () => {
+    const h = document.documentElement;
+    const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+    bar.style.width = pct + '%';
+  }, { passive: true });
+
+  // ── reveal on scroll
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // ── animated counter
+  const counterIO = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      const el = e.target;
+      if (el.dataset.done) return;
+      el.dataset.done = '1';
+      const to = parseInt(el.dataset.to, 10);
+      const sfx = el.dataset.suffix || '';
+      const dur = 1600, start = performance.now();
+      function step(t) {
+        const p = Math.min(1, (t - start) / dur);
+        const ease = 1 - Math.pow(1 - p, 3);
+        el.textContent = Math.round(to * ease) + sfx;
+        if (p < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    });
+  }, { threshold: 0.5 });
+  document.querySelectorAll('[data-to]').forEach(el => counterIO.observe(el));
+
+  // ── floating CTA
+  const fc = document.getElementById('floatcta');
+  if (fc) window.addEventListener('scroll', () => {
+    fc.classList.toggle('on', window.scrollY > 500);
+  }, { passive: true });
+
+  // ── marquee: pull 36 apps, duplicate for seamless loop
+  const mq = document.getElementById('marquee');
+  if (mq) fetch('/catalog.json').then(r => r.json()).then(d => {
+    const apps = (d.apps || []).filter(a => a.icon_url && a.name).slice(0, 36);
+    const html = apps.map(a => `
+      <div class="tile">
+        <img src="${a.icon_url}" alt="" loading="lazy" onerror="this.style.display='none'">
+        <div>
+          <div class="n">${esc(a.name)}</div>
+          ${a.rating ? `<div class="r">★ ${a.rating}</div>` : ''}
+        </div>
+      </div>`).join('');
+    mq.innerHTML = html + html;
+  }).catch(()=>{});
+  function esc(s) { return String(s).replace(/[&<>]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[m])); }
+
+  // ── calc
+  const slider = document.getElementById('apps_per_mo');
+  if (slider) {
+    const appsVal = document.getElementById('apps_val');
+    const saveVal = document.getElementById('save_val');
+    const saveYear = document.getElementById('save_year');
+    const AVG = 450, OCTO = 200;
+    function recalc() {
+      const n = parseInt(slider.value, 10);
+      appsVal.textContent = n;
+      const save = Math.max(0, n * AVG - OCTO);
+      saveVal.textContent = save.toLocaleString('ru-RU') + '₽/мес';
+      saveYear.innerHTML = '= <b>' + (save * 12).toLocaleString('ru-RU') + '₽</b> в год';
+    }
+    slider.addEventListener('input', recalc);
+    recalc();
+  }
+
+})();
+</script>
+
+</body>
+</html>
